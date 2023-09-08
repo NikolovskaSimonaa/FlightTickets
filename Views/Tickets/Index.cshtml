@@ -1,0 +1,55 @@
+﻿@model IEnumerable<FlightTickets.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@{
+    var processedFlightIds = new HashSet<int>();
+}
+
+<div style="display: flex; align-items: center;">
+    <img src="~/photos/tickets.png" width="200px" height="130px" style="margin-bottom: 20px;">
+    <h1 style="margin-left: 40px;">Purchased tickets</h1>
+</div>
+<p>
+    <a asp-action="Create">Create New Ticket</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Flight Identification No
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flight.Tickets)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            @if (processedFlightIds.Contains(item.FlightId)) continue;
+            <tr>
+            <td>
+                @if (!processedFlightIds.Contains(item.FlightId))
+                {
+                    @Html.DisplayFor(modelItem => item.Flight.Id)
+                    processedFlightIds.Add(item.FlightId);
+                }
+            </td>
+            <th>
+                @if (item.Flight.Tickets != null)
+                {
+                    foreach (var ticket in item.Flight.Tickets)
+                    {
+                        <p style="font-weight: normal;">@ticket.Passenger.Name | Seat number: @ticket.SeatNumber</p>
+                    }
+                } else {
+                    <li>No ticket information available</li>
+                }
+            </th>
+        </tr>
+}
+    </tbody>
+</table>

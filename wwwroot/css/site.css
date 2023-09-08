@@ -1,0 +1,114 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.container {
+    max-width: 900px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"] { /* for the button on Flights screen */
+    background-color: #0377fc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0356fc;
+    color: #fff;
+}
+
+.button { /* for the button on Home screen */
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #0377fc;
+    color: #fff;
+    font-size: 20px;
+    text-decoration: none;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: #0356fc;
+    color: #fff;
+}
+
+.edit-button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+
+.details-button {
+    background-color: #28a745;
+    color: #fff;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.details-button:hover {
+    background-color: #1e7e34;
+    color: #fff;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+    color: #fff;
+}

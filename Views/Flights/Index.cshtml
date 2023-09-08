@@ -1,0 +1,68 @@
+﻿@model FlightTickets.ViewModels.SearchDestinationViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1 style=" text-align: center; color: #0377fc">Flights</h1>
+
+<p>
+    <a asp-action="Create">Create New Flight</a>
+</p>
+
+
+<form asp-controller="Flights" asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="SearchDeparture">Departure:</label>
+        <input type="text" id="SearchDeparture" name="SearchDeparture" asp-for="SearchDeparture" />
+    </div>
+    <div class="form-group">
+        <label for="SearchDestination">Destination:</label>
+        <input type="text" id="SearchDestination" name="SearchDestination" asp-for="SearchDestination" />
+    </div>
+    <div class="form-group">
+        <label for="SearchDate">Date:</label>
+        <input type="date" id="SearchDate" name="SearchDate" asp-for="SearchDate" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Filter" />
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Flights[0].Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flights[0].Departure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flights[0].Destination)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Flights) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="edit-button">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="details-button">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="delete-button">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
