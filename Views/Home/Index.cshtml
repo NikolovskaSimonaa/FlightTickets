@@ -8,6 +8,11 @@
     <div style=" font-size: 24px; color: #666; margin-top: 10px;">
         Journey with Comfort, Explore with Style
     </div>
-    <a class="button" href="#">Book a Flight</a>
-
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a class="button" asp-area="" asp-controller="Tickets" asp-action="Create">Book a Flight</a>
+    } else
+    {
+        <a class="button" asp-area="Identity" asp-page="/Account/Login">Book a Flight</a>
+    } 
 </div>

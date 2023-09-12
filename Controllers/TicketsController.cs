@@ -22,10 +22,6 @@ namespace FlightTickets.Controllers
         // GET: Tickets
         public async Task<IActionResult> Index()
         {
-            // return _context.Ticket != null ? 
-            //            View(await _context.Ticket.ToListAsync()) :
-            //           Problem("Entity set 'FlightTicketsContext.Ticket'  is null.");
-            //var flightTicketContext = _context.Ticket.Include(m => m.Passenger).Include(m => m.Flight).ThenInclude(m => m.Tickets);
             var tickets = await _context.Ticket
             .Include(m => m.Passenger)
             .Include(m => m.Flight).ThenInclude(m => m.Tickets)
