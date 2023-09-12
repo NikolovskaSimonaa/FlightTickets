@@ -1,11 +1,18 @@
 ﻿@page
+@inject UserManager<FlightTicketsUser> UserManager
 @model IndexModel
 @{
     ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
-
+<img src="~/photos/airplane.png" style=" width: 60px; height: 60px;"> @UserManager.GetUserName(User)
 <h3>@ViewData["Title"]</h3>
+
+<h5>Registered Passengers</h5>
+<div class="row">
+</div>
+<hr>
+<h5>Profile Update</h5>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
     <div class="col-md-6">
@@ -15,11 +22,13 @@
                 <input asp-for="Username" class="form-control" disabled />
                 <label asp-for="Username" class="form-label"></label>
             </div>
+            <br>
             <div class="form-floating">
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
+            <br>
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
     </div>
