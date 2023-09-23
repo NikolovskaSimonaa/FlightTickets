@@ -1,0 +1,47 @@
+﻿@model IEnumerable<FlightTickets.Models.Ticket>
+
+@{
+    ViewData["Title"] = "MyTickets";
+}
+
+<h1>MyTickets</h1><br>
+
+        @foreach (var item in Model)
+        {
+            <div class="ticket-container">
+
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dear @item.Passenger.Name,
+                <br> <br>
+                We are happy to inform you that your booking for @item.Flight.Destination on @item.Flight.Date is confirmed! 
+                All you need to do is show us this email on the day you arrive, and you’ll be good to go!
+                Below are the details of your upcoming flight:
+                <br><br>
+                Passenger Name: @item.Passenger.Name <br>
+                Passport Number: @item.Passenger.PassportIdentificationNumber <br>
+                Flight Date: @item.Flight.Date <br>
+                Departure: @item.Flight.Departure <br>
+                Destination: @item.Flight.Destination <br>
+                Flight Identification Number: @item.FlightId <br>
+                Seat Number: @item.SeatNumber <br>
+                <br>
+                If you have any questions or need to make changes to your reservation, please contact our customer support team at simona@tickets.com. <br><br>
+                Thank you for choosing us. Have a great trip!
+            </div>
+            <hr>
+        }
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var ticketContainers = $('.ticket-container');
+        var colors = [' #f0f9ff', '#fff0fb', '#fffaf0'];
+        var colorIndex = 0;
+
+        ticketContainers.each(function () {
+            $(this).css('background-color', colors[colorIndex]);
+            colorIndex = (colorIndex + 1) % colors.length;
+        });
+    });
+</script>
+
+

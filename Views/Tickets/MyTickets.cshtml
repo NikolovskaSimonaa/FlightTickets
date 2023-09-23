@@ -1,0 +1,54 @@
+﻿@model IEnumerable<FlightTickets.Models.Ticket>
+
+@{
+    ViewData["Title"] = "MyTickets";
+}
+
+<h1>MyTickets</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PassengerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PassengerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SeatNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

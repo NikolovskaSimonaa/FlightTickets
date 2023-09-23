@@ -12,6 +12,7 @@ namespace FlightTickets.Models
         public Flight? Flight { get; set; } 
         [Display(Name = "Seat number")]
         public int SeatNumber { get; set;}
+        public string AppUser { get; set; }
 
     }
 }

@@ -68,10 +68,10 @@ namespace FlightTickets.Models
                );
                 context.SaveChanges();
                 context.Ticket.AddRange(
-                   new Ticket { PassengerId = 1, FlightId = 1, SeatNumber = 58 },
-                   new Ticket { PassengerId = 2, FlightId = 1, SeatNumber = 59 },
-                   new Ticket { PassengerId = 1, FlightId = 2, SeatNumber = 43 },
-                   new Ticket { PassengerId = 2, FlightId = 2, SeatNumber = 42 }
+                   new Ticket { PassengerId = 1, FlightId = 1, SeatNumber = 58, AppUser = "simona@tickets.com" },
+                   new Ticket { PassengerId = 2, FlightId = 1, SeatNumber = 59, AppUser = "simona@tickets.com" },
+                   new Ticket { PassengerId = 1, FlightId = 2, SeatNumber = 43, AppUser = "simona@tickets.com" },
+                   new Ticket { PassengerId = 2, FlightId = 2, SeatNumber = 42, AppUser = "simona@tickets.com" }
                );
                 context.SaveChanges();
             }

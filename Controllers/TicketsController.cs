@@ -7,17 +7,22 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlightTickets.Data;
 using FlightTickets.Models;
+using Microsoft.AspNetCore.Identity;
+using FlightTickets.Areas.Identity.Data;
 
 namespace FlightTickets.Controllers
 {
     public class TicketsController : Controller
     {
         private readonly FlightTicketsContext _context;
+        private readonly UserManager<FlightTicketsUser> _userManager;
 
-        public TicketsController(FlightTicketsContext context)
+        public TicketsController(FlightTicketsContext context, UserManager<FlightTicketsUser> usermanager)
         {
             _context = context;
+            _userManager = usermanager;
         }
+        private Task<FlightTicketsUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Tickets
         public async Task<IActionResult> Index()
@@ -60,14 +65,21 @@ namespace FlightTickets.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PassengerId,FlightId,SeatNumber")] Ticket ticket)
+        public async Task<IActionResult> Create([Bind("Id,PassengerId,FlightId,SeatNumber,AppUser")] Ticket ticket)
         {
 
             bool isSeatAvaliable = !_context.Ticket.Any(t => t.FlightId == ticket.FlightId && t.SeatNumber == ticket.SeatNumber);
 
-            if (ModelState.IsValid && isSeatAvaliable)
+            if ( isSeatAvaliable)
             {
-                _context.Add(ticket);
+                Ticket t = new Ticket();
+                t.Id = (int)ticket.Id;
+                t.PassengerId = (int)ticket.PassengerId;
+                t.FlightId = (int)ticket.FlightId;
+                t.SeatNumber = (int)ticket.SeatNumber;
+                var user = await GetCurrentUserAsync();
+                t.AppUser = user.UserName;
+                _context.Add(t);
                 await _context.SaveChangesAsync();
                 TempData["IsBookingSuccessful"] = true;
             }
@@ -80,6 +92,26 @@ namespace FlightTickets.Controllers
                 TempData["IsBookingSuccessful"] = false;
             }
             return View(ticket);
+        }
+
+        public async Task<IActionResult> UserTickets()
+        {
+            var user = await GetCurrentUserAsync();
+            var MyTicketsList = _context.Ticket.AsQueryable();
+            var UserTickets = MyTicketsList
+                    .Include(m => m.Passenger)
+                    .Include(m => m.Flight)
+                    .ThenInclude(m => m.Tickets)
+                    .Where(m => m.AppUser == user.UserName)
+                    .ToList();
+            if (UserTickets != null)
+            {
+                return View("~/Views/Tickets/UserTickets.cshtml", UserTickets);
+            }
+            else
+            {
+                return Problem("Entity set 'FlightTicketsContext.MyTickets' is null!");
+            }
         }
 
         // GET: Tickets/Edit/5

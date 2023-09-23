@@ -43,7 +43,7 @@
                 {
                     foreach (var ticket in item.Flight.Tickets)
                     {
-                        <p style="font-weight: normal;">@ticket.Passenger.Name | Seat number: @ticket.SeatNumber</p>
+                        <p style="font-weight: normal;">@ticket.Passenger.Name | Seat number: @ticket.SeatNumber | AppUser: @ticket.AppUser</p>
                     }
                 } else {
                     <li>No ticket information available</li>

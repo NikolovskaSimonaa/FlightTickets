@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FlightTickets.Data;
 using FlightTickets.Models;
 using FlightTickets.ViewModels;
+using System.Security.Principal;
 
 namespace FlightTickets.Controllers
 {
@@ -75,9 +76,10 @@ namespace FlightTickets.Controllers
             {
                 _context.Add(passenger);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessfullRegister"] = true;
+                //return RedirectToAction(nameof(Index));
             }
-            return View(passenger);
+             return View(passenger);
         }
 
         // GET: Passengers/Edit/5
