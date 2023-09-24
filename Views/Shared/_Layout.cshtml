@@ -22,7 +22,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My profile</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Passengers" asp-action="UserPassengers">Profile Details</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="UserTickets">My tickets</a>

@@ -9,31 +9,34 @@ using FlightTickets.Data;
 using FlightTickets.Models;
 using FlightTickets.ViewModels;
 using System.Security.Principal;
+using System.Net.Sockets;
+using Microsoft.AspNetCore.Identity;
+using FlightTickets.Areas.Identity.Data;
 
 namespace FlightTickets.Controllers
 {
     public class PassengersController : Controller
     {
         private readonly FlightTicketsContext _context;
+        private readonly UserManager<FlightTicketsUser> _userManager;
 
-        public PassengersController(FlightTicketsContext context)
+        public PassengersController(FlightTicketsContext context, UserManager<FlightTicketsUser> usermanager)
         {
             _context = context;
+            _userManager = usermanager;
         }
+
+        private Task<FlightTicketsUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
         // GET: Passengers
         public async Task<IActionResult> Index(string searchPassenger)
         {
-           // var flightContext = _context.Passenger.Include(p => p.MyTickets).ThenInclude(p => p.Flight);
-           // return View(await flightContext.ToListAsync());
-
             IQueryable<Passenger> passengers = _context.Passenger.AsQueryable();
             if (!string.IsNullOrEmpty(searchPassenger))
             {
                 passengers = passengers.Where(s => s.Name.Contains(searchPassenger));
             }
             passengers = passengers.Include(m => m.MyTickets).ThenInclude(p => p.Flight);
-            //var flights = await _context.Flight.Include(m => m.Tickets).FirstOrDefaultAsync(m => m.Id == id);
             var passengerVM = new SearchPassengerViewModel
             {
                 Passengers = await passengers.ToListAsync()
@@ -70,16 +73,36 @@ namespace FlightTickets.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DateOfBirth,PassportIdentificationNumber")] Passenger passenger)
+        public async Task<IActionResult> Create([Bind("Id,Name,DateOfBirth,PassportIdentificationNumber,AppUser")] Passenger passenger)
         {
-            if (ModelState.IsValid)
+            Passenger p = new Passenger();
+            p.Id = (int)passenger.Id;
+            p.Name = passenger.Name;
+            p.DateOfBirth = passenger.DateOfBirth;
+            p.PassportIdentificationNumber = passenger.PassportIdentificationNumber;
+            var user = await GetCurrentUserAsync();
+            p.AppUser = user.UserName;
+            _context.Add(p);
+            await _context.SaveChangesAsync();
+            TempData["SuccessfullRegister"] = true;
+            return View(passenger);
+        }
+
+        public async Task<IActionResult> UserPassengers()
+        {
+            var user = await GetCurrentUserAsync();
+            var PassengersList = _context.Passenger.AsQueryable();
+            var UserPassengers = PassengersList
+                    .Where(m => m.AppUser == user.UserName)
+                    .ToList();
+            if (UserPassengers != null)
             {
-                _context.Add(passenger);
-                await _context.SaveChangesAsync();
-                TempData["SuccessfullRegister"] = true;
-                //return RedirectToAction(nameof(Index));
+                return View("~/Views/Passengers/UserPassengers.cshtml", UserPassengers);
             }
-             return View(passenger);
+            else
+            {
+                return Problem("Entity set 'FlightTicketsContext.MyPassengers' is null!");
+            }
         }
 
         // GET: Passengers/Edit/5
@@ -103,33 +126,33 @@ namespace FlightTickets.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DateOfBirth,PassportIdentificationNumber")] Passenger passenger)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,DateOfBirth,PassportIdentificationNumber,AppUser")] Passenger passenger)
         {
             if (id != passenger.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(passenger);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PassengerExists(passenger.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var user = await GetCurrentUserAsync();
+                passenger.AppUser = user.UserName;
+                _context.Update(passenger);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!PassengerExists(passenger.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(UserPassengers));
+            
             return View(passenger);
         }
 

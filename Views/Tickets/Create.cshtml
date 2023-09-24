@@ -18,7 +18,7 @@
                 <select asp-for="PassengerId" class="form-control" asp-items="ViewBag.PassengerId"></select>
             </div>
             <p>
-                Note: For all the passengers registered from this account, you are able to see the identification number <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">here</a>.
+                Note: For all the passengers registered from this account, you are able to see the identification number <a asp-area="" asp-controller="Passengers" asp-action="UserPassengers">here</a>.
                 If you don't have or don't know the passenger's identification number, you will need to make passenger registration first.
                 <br>
                 <a asp-area="" asp-controller="Passengers" asp-action="Create">Make passenger registration</a>

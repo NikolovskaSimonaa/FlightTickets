@@ -25,7 +25,8 @@
                 Seat Number: @item.SeatNumber <br>
                 <br>
                 If you have any questions or need to make changes to your reservation, please contact our customer support team at simona@tickets.com. <br><br>
-                Thank you for choosing us. Have a great trip!
+                Thank you for choosing us. Have a great trip! <br><br>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="delete-button">Delete</a>
             </div>
             <hr>
         }

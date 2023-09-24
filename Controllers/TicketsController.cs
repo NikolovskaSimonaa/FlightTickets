@@ -70,7 +70,7 @@ namespace FlightTickets.Controllers
 
             bool isSeatAvaliable = !_context.Ticket.Any(t => t.FlightId == ticket.FlightId && t.SeatNumber == ticket.SeatNumber);
 
-            if ( isSeatAvaliable)
+            if (isSeatAvaliable)
             {
                 Ticket t = new Ticket();
                 t.Id = (int)ticket.Id;
@@ -199,7 +199,7 @@ namespace FlightTickets.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(UserTickets));
         }
 
         private bool TicketExists(int id)

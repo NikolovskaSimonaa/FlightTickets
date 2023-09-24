@@ -11,6 +11,7 @@ namespace FlightTickets.Models
         public DateTime DateOfBirth { get; set; }
         [Display(Name = "Passport Id")]
         public string PassportIdentificationNumber { get; set; }
+        public string AppUser { get; set; }
         public ICollection<Ticket>? MyTickets { get; set; }
 
     }
