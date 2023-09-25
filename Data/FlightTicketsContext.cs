@@ -26,5 +26,9 @@ namespace FlightTickets.Data
         {
             base.OnModelCreating(builder);
         }
+
+        public DbSet<FlightTickets.Models.Question>? Question { get; set; }
+
+        public DbSet<FlightTickets.Models.Answer>? Answer { get; set; }
     }
 }

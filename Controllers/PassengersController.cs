@@ -152,8 +152,6 @@ namespace FlightTickets.Controllers
                 }
             }
             return RedirectToAction(nameof(UserPassengers));
-            
-            return View(passenger);
         }
 
         // GET: Passengers/Delete/5

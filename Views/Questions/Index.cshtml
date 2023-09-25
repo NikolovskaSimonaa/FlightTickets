@@ -1,0 +1,25 @@
+﻿@model IEnumerable<FlightTickets.Models.Question>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Frequently Asked Questions</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@foreach (var item in Model)
+{
+    <div class="card">
+        <p class="card-header">@Html.DisplayFor(modelItem => item.AppUser)</p>
+        <p class="card-body">@Html.DisplayFor(modelItem => item.Comment)
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+            {
+                <a asp-action="Delete" asp-route-id="@item.Id" class="delete-button">Delete</a>
+            }
+        </p>
+    </div>
+    <br>
+}
