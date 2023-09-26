@@ -71,6 +71,20 @@ input[type="submit"]:hover {
     color: #fff;
 }
 
+.create-button {
+    background-color: #32a852;
+    color: #fff;
+    padding: 3px 10px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+    .create-button:hover {
+        background-color: #239943;
+        color: #fff;
+    }
+
 .edit-button {
     background-color: #007BFF;
     color: #fff;
@@ -123,3 +137,10 @@ input[type="submit"]:hover {
 .hidden-div {
     display: none;
 }
+
+.answer {
+    width: 95%;
+    left: 5%;
+    border-radius: 25px;
+}
+

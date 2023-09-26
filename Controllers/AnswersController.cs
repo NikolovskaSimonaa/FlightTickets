@@ -55,12 +55,10 @@ namespace FlightTickets.Controllers
         // GET: Answers/Create
         public async Task<IActionResult> Create(int? id)
         {
-
             if (id == null || _context.Answer == null)
             {
                 return NotFound();
             }
-
             var answer = await _context.Answer.FindAsync(id);
             if (answer == null)
             {
@@ -68,8 +66,6 @@ namespace FlightTickets.Controllers
             }
             ViewData["QuestionId"] = new SelectList(_context.Question, "Id", "Id", answer.QuestionId);
             return View(answer);
-            //ViewData["QuestionId"] = new SelectList(_context.Question, "Id", "Id");
-           // return View();
         }
 
         // POST: Answers/Create
@@ -79,10 +75,6 @@ namespace FlightTickets.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(int questionId, [Bind("Id,Comment,AppUser,QuestionId")] Answer answer)
         {
-           // _context.Add(answer);
-           // await _context.SaveChangesAsync();
-           // return RedirectToAction(nameof(Index));
-
             Answer a = new Answer();
             a.Comment = answer.Comment;
             a.QuestionId = questionId;

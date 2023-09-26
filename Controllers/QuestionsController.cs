@@ -57,6 +57,33 @@ namespace FlightTickets.Controllers
             return View();
         }
 
+        public IActionResult CreateAnswer(int questionId)
+        {
+            ViewBag.QuestionId = questionId;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAnswer(int questionId, [Bind("Id,Comment")] Answer answer)
+        {
+            var question = _context.Question.Find(questionId);
+
+            if (question == null)
+            {
+                // Handle the case where the questionId doesn't exist
+                return NotFound(); // Or some other appropriate action
+            }
+            Answer a = new Answer();
+            a.Comment = answer.Comment;
+            a.QuestionId = questionId;
+            var user = await GetCurrentUserAsync();
+            a.AppUser = user.UserName;
+            _context.Answer.Add(a);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         // POST: Questions/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
