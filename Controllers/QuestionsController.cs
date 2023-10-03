@@ -71,8 +71,7 @@ namespace FlightTickets.Controllers
 
             if (question == null)
             {
-                // Handle the case where the questionId doesn't exist
-                return NotFound(); // Or some other appropriate action
+                return NotFound();
             }
             Answer a = new Answer();
             a.Comment = answer.Comment;

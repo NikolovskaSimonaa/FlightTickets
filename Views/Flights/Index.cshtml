@@ -44,6 +44,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Flights[0].Destination)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flights[0].Id)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -59,6 +62,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Destination)
             </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.Id)
+            </th>
             <td>
             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin")){
                 <a asp-action="Edit" asp-route-id="@item.Id" class="edit-button">Edit</a> 
